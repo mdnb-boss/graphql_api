@@ -1,0 +1,28 @@
+type User {
+    id: ID!
+    name: String!
+    email: String!
+}
+
+input UserUpdate {
+    name: String!
+    email: String!
+}
+
+input UserFilter {
+    name: String
+}
+
+type Query {
+    users(page: Int!, per_page: Int!, filters: UserFilter): [User!]!
+    user(id: ID!): User
+}
+
+type Mutation {
+    createUser(name: String!, email: String!): User,
+    updateUser(id: ID!, user: UserUpdate): User,
+}
+
+# type Subscription {
+#   userAdded(id: ID!): User
+# }

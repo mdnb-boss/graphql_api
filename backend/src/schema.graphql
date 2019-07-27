@@ -23,6 +23,10 @@ type Mutation {
     updateUser(id: ID!, user: UserUpdate): User,
 }
 
+type Subscription {
+    userAdded: User
+}
+
 # type Subscription {
 #   userAdded(id: ID!): User
 # }

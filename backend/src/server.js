@@ -1,9 +1,13 @@
+const dotenv = require('dotenv');
+dotenv.config({ path: __dirname + '/../.env' });
+
 const { GraphQLServer, PubSub  } = require('graphql-yoga');
 const path = require('path');
 const resolvers = require('./resolvers');
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-dotenv.config({ path: __dirname + '/../.env' });
+const sequelize = require('./sequelize')
+
+
 
 mongoose.connect(process.env.MONGODB, {
     useNewUrlParser: true,

@@ -1,12 +1,18 @@
+scalar Date
+
 type User {
     id: ID!
     name: String!
     email: String!
+    password: String!
+    createdAt: Date
+    updatedAt: Date
 }
 
 input UserUpdate {
     name: String!
     email: String!
+    password: String!
 }
 
 input UserFilter {
@@ -19,7 +25,7 @@ type Query {
 }
 
 type Mutation {
-    createUser(name: String!, email: String!): User,
+    createUser(name: String!, email: String!, password: String!): User,
     updateUser(id: ID!, user: UserUpdate): User,
 }
 

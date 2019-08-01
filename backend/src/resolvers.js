@@ -1,4 +1,6 @@
-const User = require("./User");
+const User2 = require("./User");
+
+const { User } = require('../app/models');
 
 module.exports = {
     Query: {
@@ -6,12 +8,17 @@ module.exports = {
 
             page = Math.max(0, page);
 
-            return User.find().limit(per_page).skip(per_page * page).where();
+            //return User2.find().limit(per_page).skip(per_page * page).where();
+
+            return User.findAll({
+                limit: per_page,
+                offset: per_page * page
+            })
         },
 
         user: (_, { id }, { pubsub }) => {
 
-            const user = User.findById(id);
+            const user = User2.findById(id);
             
             pubsub.publish('USER_CHANNEL', { 
                 userAdded: user 
@@ -22,17 +29,31 @@ module.exports = {
     },
 
     Mutation: {
-        createUser: (_, { name, email }, { pubsub }) => {
+        createUser: (_, { name, email, password }, { pubsub }) => {
         
             // pubsub.publish('CHAT_CHANNEL', { messageSent: chat })
 
-            return User.create({ name, email })
+            //return User2.create({ name, email })
+            return User.create({name, email, password})
         },
         
-        updateUser: (_, {id, user }) => {
-            return User.findByIdAndUpdate(id, user , {
-                new :true
-            });
+        updateUser: async (_, {id, user }) => {
+
+            let aUser;
+
+            await User.update(user, {
+                where: {
+                    id: id
+                }
+            }).then(() => {
+                aUser = User.findOne({
+                    where: {
+                        id: id
+                    }
+                })
+            })
+            
+            return aUser
         },
     },
 
